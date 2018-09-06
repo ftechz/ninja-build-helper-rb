@@ -4,6 +4,7 @@ module Ninja
       @variables = []
       @rules = []
       @builds = []
+      @subninjas = []
       @defaults = []
       Delegator.new(self, :except => [:save]).instance_eval(&block) if block_given?
       self.save(path) if path
@@ -36,6 +37,10 @@ module Ninja
       end
     end
 
+    def subninja(filename)
+      @subninjas.push(filename)
+    end
+
     def alias(from, to)
       # Pretty clever, huh?
       @builds.push(Ninja::Build.new(:rule => 'phony', :inputs => [*to], :output => from))
@@ -55,6 +60,11 @@ module Ninja
         f.write "# Do not modify! Instead, modify the aforementioned program.\n\n"
         f.write "# We require Ninja >= 1.3 for `deps` and >= 1.5 for `msvc_deps_prefix`.\n"
         f.write "ninja_required_version = 1.5\n\n"
+
+        @subninjas.each do |subninja|
+          f.write "subninja #{subninja}\n"
+        end
+        f.write "\n" unless @subninjas.empty?
 
         @variables.each do |variable|
           # TODO(mtwilliams): Escape.
