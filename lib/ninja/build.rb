@@ -2,7 +2,8 @@ module Ninja
   class Build
     attr_reader :rule,
                 :inputs,
-                :output
+                :output,
+                :variables
 
     def initialize(desc={})
       Description.validate!(desc)
@@ -10,6 +11,7 @@ module Ninja
       @rule = desc[:rule]
       @inputs = [*desc[:inputs]]
       @output = desc[:output]
+      @variables = desc[:variables]
     end
 
     module Description #:nodoc:
@@ -24,6 +26,8 @@ module Ninja
         raise "Output not specified." unless desc.include?(:output)
          # TODO(mtwilliams): Check if paths exist.
          raise "Expected output to be a path." unless desc[:output].is_a?(String)
+        raise "Variables not specified." unless desc.include?(:variables)
+         raise "Expected variables to be an array of variables." unless desc[:variables].is_a?(Array)
       end
     end
   end

@@ -26,9 +26,13 @@ module Ninja
                                   **additional))
     end
 
-    def build(rule, outputs_to_inputs={})
+    def build(rule, outputs_to_inputs={}, variables={})
+      buildVariables = []
+      variables.each do |name, value|
+        buildVariables.push Ninja::Variable.new(name, value)
+      end
       outputs_to_inputs.each do |output, inputs|
-        @builds.push(Ninja::Build.new(:rule => rule, :inputs => [*inputs], :output => output))
+        @builds.push(Ninja::Build.new(:rule => rule, :inputs => [*inputs], :output => output, :variables => buildVariables))
       end
     end
 
@@ -82,6 +86,9 @@ module Ninja
 
         @builds.each do |build|
           f.write "build #{build.output}: #{build.rule} #{build.inputs.join(' ')}\n"
+          build.variables.each do |variable|
+            f.write "  #{variable.name} = #{variable.value}\n"
+          end
         end
 
         unless @defaults.empty?

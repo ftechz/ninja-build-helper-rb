@@ -2,13 +2,13 @@ $:.push File.expand_path(File.join(File.dirname(__FILE__), 'lib'))
 require 'ninja/version'
 
 Gem::Specification.new do |s|
-  s.name              = 'ninja-gen'
+  s.name              = 'ninja-build-helpers'
   s.version           = Ninja.version
   s.platform          = Gem::Platform::RUBY
-  s.author            = 'Michael Williams'
-  s.email             = 'm.t.williams@live.com'
-  s.homepage          = 'https://github.com/mtwilliams/ninja'
-  s.summary           = 'Generate Ninja build files.'
+  s.author            = 'Phillip Cao'
+  s.email             = 'ftechz@gmail.com'
+  s.homepage          = 'https://github.com/ftechz/ninja-build-helpers-rb'
+  s.summary           = 'Helpers to generate Ninja build files.'
   s.description       = 'Ninja is a simple Ruby DSL for generating ninja build files.'
   s.license           = 'Public Domain'
 
