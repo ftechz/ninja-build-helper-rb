@@ -2,6 +2,7 @@ module Ninja
   class Build
     attr_reader :rule,
                 :inputs,
+                :implicit_inputs,
                 :output,
                 :variables
 
@@ -10,6 +11,7 @@ module Ninja
 
       @rule = desc[:rule]
       @inputs = [*desc[:inputs]]
+      @implicit_inputs = [*desc[:implicit_inputs]]
       @output = desc[:output]
       @variables = desc[:variables]
     end
